@@ -25,6 +25,12 @@ type TokenResp struct {
 	Data    *TokenData `json:"data"`
 }
 
+type TokenReq struct {
+	AppID     string `json:"appid"`
+	Secret    string `json:"secret"`
+	GrantType string `json:"grant_type"`
+}
+
 func (sdk *SDK) GetToken(ctx context.Context) (*TokenResp, error) {
 	// 从redis获取token信息，如果获取到了，判断expires_at是否在当前时间之后，如果是之后，则直接返回响应
 	// 其他情况需要获取分布式锁，获取到锁的话，就请求微信服务，获取新的token，并更新token，expires_at 设置成的 now+expires_in*(2/3)
@@ -130,13 +136,16 @@ func (sdk *SDK) DecodeTokenResp(result map[string]string) *TokenResp {
 }
 
 func (sdk *SDK) CallToken(ctx context.Context) (*TokenResp, error) {
+	var req = TokenReq{
+		AppID:     sdk.AppID,
+		Secret:    sdk.Secret,
+		GrantType: "client_credential",
+	}
 	var resp TokenResp
 	err := httpx.NewRequestBuilder().
-		Get().
+		Post().
 		URLString(sdk.getURLToken()).
-		Query("appid", sdk.AppID).
-		Query("secret", sdk.Secret).
-		Query("grant_type", "client_credential").
+		JSONBody(&req).
 		Execute(ctx, sdk.HttpCli).
 		JSONBody(&resp)
 	if err != nil {
