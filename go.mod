@@ -1,4 +1,4 @@
-module github.com/go-leo/douying
+module github.com/go-leo/douyin
 
 go 1.19
 

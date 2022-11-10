@@ -1,4 +1,4 @@
-package douyin
+package common
 
 type BaseResp struct {
 	ErrCode int64  `json:"errcode"`

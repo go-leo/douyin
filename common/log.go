@@ -1,4 +1,4 @@
-package douyin
+package common
 
 import "log"
 
