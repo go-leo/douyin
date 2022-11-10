@@ -17,7 +17,7 @@ type JsCode2SessionResp struct {
 	UnionID         string `json:"unionid"`          // 用户在小程序平台的唯一标识符，请求时有 code 参数才会返回。如果开发者拥有多个小程序，可通过 unionid 来区分用户的唯一性。
 }
 
-func (auth *SDK) JsCode2Session(ctx context.Context, code string) (*JsCode2SessionResp, error) {
+func (auth *SDK) JsCode2Session(ctx context.Context, code string, anonymousCode string) (*JsCode2SessionResp, error) {
 	var resp JsCode2SessionResp
 	err := httpx.NewRequestBuilder().
 		Get().
@@ -25,7 +25,7 @@ func (auth *SDK) JsCode2Session(ctx context.Context, code string) (*JsCode2Sessi
 		Query("appid", auth.AppID).
 		Query("secret", auth.Secret).
 		Query("code", code).
-		Query("anonymous_code", ""). //TODO login 接口返回的匿名登录凭证,和 code至少有一个,这里填写什么
+		Query("anonymous_code", anonymousCode).
 		Execute(ctx, auth.HttpCli).JSONBody(&resp)
 	if err != nil {
 		return nil, err

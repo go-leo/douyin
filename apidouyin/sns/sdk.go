@@ -5,7 +5,7 @@ import (
 )
 
 var (
-	URLJsCode2Session = "https://developer.toutiao.com/api/apps/v2/jscode2session" //TODO 这里是线上地址
+	URLJsCode2Session = "https://developer.toutiao.com/api/apps/v2/jscode2session"
 )
 
 type SDK struct {
