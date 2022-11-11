@@ -2,6 +2,7 @@ package douyin
 
 import (
 	"context"
+	"github.com/go-leo/douyin/common"
 	"testing"
 
 	"github.com/go-leo/netx/httpx"
@@ -25,7 +26,7 @@ func TestToken(t *testing.T) {
 		RedisSync:      redsync.New(goredis.NewPool(client)),
 		TokenKey:       "douying:access:token:" + appID,
 		TokenLockerKey: "douying:access:token:locker" + appID,
-		Logger:         DefaultLogger{},
+		Logger:         common.DefaultLogger{},
 		IsSandBox:      true,
 	}
 	token, err := sdk.GetToken(context.Background())

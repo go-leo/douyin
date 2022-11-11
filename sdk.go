@@ -1,4 +1,4 @@
-package apidouyin
+package douyin
 
 import (
 	"github.com/go-leo/douyin/common"
