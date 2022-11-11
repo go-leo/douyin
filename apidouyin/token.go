@@ -1,4 +1,4 @@
-package cgibin
+package apidouyin
 
 import (
 	"context"

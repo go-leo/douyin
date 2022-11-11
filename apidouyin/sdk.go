@@ -1,6 +1,7 @@
-package cgibin
+package apidouyin
 
 import (
+	"github.com/go-leo/douyin/common"
 	"net/http"
 
 	"github.com/go-redis/redis/v8"
@@ -15,6 +16,6 @@ type SDK struct {
 	RedisSync      *redsync.Redsync
 	TokenKey       string
 	TokenLockerKey string
-	Logger         Logger
+	Logger         common.Logger
 	IsSandBox      bool
 }
