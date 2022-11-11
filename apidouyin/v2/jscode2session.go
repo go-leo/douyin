@@ -1,4 +1,4 @@
-package sns
+package v2
 
 import (
 	"context"
