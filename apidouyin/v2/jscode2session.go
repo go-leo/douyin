@@ -8,6 +8,14 @@ import (
 	"github.com/go-leo/netx/httpx"
 )
 
+// JsCode2SessionReq 登录凭证校验请求参数
+type JsCode2SessionReq struct {
+	AppID         string `json:"appid"`
+	Secret        string `json:"secret"`
+	Code          string `json:"code"`
+	AnonymousCode string `json:"anonymous_code"`
+}
+
 // JsCode2SessionResp 登录凭证校验的返回结果
 type JsCode2SessionResp struct {
 	common.BaseResp
@@ -20,13 +28,15 @@ type JsCode2SessionResp struct {
 func (auth *SDK) JsCode2Session(ctx context.Context, code string, anonymousCode string) (*JsCode2SessionResp, error) {
 	var resp JsCode2SessionResp
 	err := httpx.NewRequestBuilder().
-		Get().
-		URLString(URLJsCode2Session).
-		Query("appid", auth.AppID).
-		Query("secret", auth.Secret).
-		Query("code", code).
-		Query("anonymous_code", anonymousCode).
-		Execute(ctx, auth.HttpCli).JSONBody(&resp)
+		Post().
+		URLString(URLJsCode2Session).JSONBody(
+		&JsCode2SessionReq{
+			AppID:         auth.AppID,
+			Secret:        auth.Secret,
+			Code:          code,
+			AnonymousCode: anonymousCode,
+		},
+	).Execute(ctx, auth.HttpCli).JSONBody(&resp)
 	if err != nil {
 		return nil, err
 	}
