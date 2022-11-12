@@ -31,7 +31,7 @@ type TokenReq struct {
 	GrantType string `json:"grant_type"`
 }
 
-func (sdk *SDK) GetToken(ctx context.Context) (*TokenResp, error) {
+func (sdk *SDK) Token(ctx context.Context) (*TokenResp, error) {
 	// 从redis获取token信息，如果获取到了，判断expires_at是否在当前时间之后，如果是之后，则直接返回响应
 	// 其他情况需要获取分布式锁，获取到锁的话，就请求微信服务，获取新的token，并更新token，expires_at 设置成的 now+expires_in*(2/3)
 	// 没获取到锁的，返回响应（新老有5分钟的过度期）
