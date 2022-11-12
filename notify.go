@@ -23,20 +23,12 @@ type NotifyReq struct {
 }
 
 // Notify 发送订阅消息
-func (sdk *SDK) Notify(ctx context.Context, accessToken, tplId, openID, page string, data map[string]string) (*NotifyResp, error) {
-	req := NotifyReq{
-		AccessToken: accessToken,
-		AppID:       sdk.AppID,
-		TplID:       tplId,
-		OpenID:      openID,
-		Data:        data,
-		Page:        page,
-	}
+func (sdk *SDK) Notify(ctx context.Context, req *NotifyReq) (*NotifyResp, error) {
 	var resp NotifyResp
 	err := httpx.NewRequestBuilder().
 		Post().
 		URLString(sdk.getNotifyURL()).
-		JSONBody(&req).
+		JSONBody(req).
 		Execute(ctx, sdk.HttpCli).
 		JSONBody(&resp)
 	if err != nil {
